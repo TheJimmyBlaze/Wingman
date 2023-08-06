@@ -26,5 +26,6 @@ const units = new Map([
             profession: professions_1.Profession.Logistics
         }]
 ]);
+/** Safely gets a unit by unitId */
 const getUnit = (id) => units.get(id);
 exports.getUnit = getUnit;

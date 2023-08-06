@@ -1,11 +1,17 @@
 
-import { getName, purge } from "./chronicle";
-import { UnitId, getUnit } from "./units";
+import * as barracks from './barracks';
+import { purge } from './chronicle';
+import { UnitId } from './units';
 
 const wingman = () => {
 
-    const unit = getUnit(UnitId.CarrierMkI);
-    console.log(JSON.stringify(unit));
+    if (barracks.barracks.queue.length === 0) {
+        barracks.enlist(UnitId.Basic);
+        barracks.enlist(UnitId.DrillMkI);
+        barracks.enlist(UnitId.CarrierMkI);
+    }
+
+    barracks.operate();
 }
 
 declare const module: any;

@@ -1,3 +1,4 @@
+
 import { wingMem } from './memory';
 
 export interface Chronicle {
@@ -15,30 +16,27 @@ const DEFAULT_CHRONICLE = {
 
 export const chronicle = wingMem.chronicle || (wingMem.chronicle = DEFAULT_CHRONICLE);
 
-/** Resets chroncile records to the default value of an empty array. */
+/** Resets chroncile records to the default value of an empty array */
 export const purge = () => chronicle.records = DEFAULT_CHRONICLE.records;
 
-/** Safely returns the next index of a named record. Returns 1 if the record has never previously existed. */
-export const getIndex = (name: string): number => {
+/** Safely returns a named record.*/
+export const getRecord = (name: string): NameRecord => {
 
     //Get next record or create a new one if it does not exist
     let record = chronicle.records.find(record => record.name === name);
     if (record == null) {
         record = {
             name: name,
-            index: 0
+            index: 1
         };
         chronicle.records.push(record);
     }
-
-    //Increment and return
-    record.index ++;
-    return record.index;
+    
+    return record;
 }
 
-/** Safely returns the next available indexed name of a record. */
-export const getName = (name: string): string => {
+/** Formats a NameRecord as a name */
+export const getName = (record: NameRecord): string => `${record.name}_${record.index}`;
 
-    const index = getIndex(name);
-    return `${name}${index}`;
-}
+/** Commiting a record increases it's index, ready reuse */
+export const commitRecord = (record: NameRecord) => record.index++;

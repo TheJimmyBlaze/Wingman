@@ -1,3 +1,4 @@
+
 import { Profession } from './professions';
 
 export enum UnitId {
@@ -30,4 +31,5 @@ const units = new Map<UnitId, Unit>([
     }]
 ]);
 
-export const getUnit = (id: UnitId): Unit | undefined => units.get(id);
+/** Safely gets a unit by unitId */
+export const getUnit = (id: UnitId): Unit => units.get(id)!;
