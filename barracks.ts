@@ -14,6 +14,9 @@ const DEFAULT_BARRACKS = {
 
 export const barracks = wingMem.barracks || (wingMem.barracks = DEFAULT_BARRACKS);
 
+//** Resets the barracks queue to the default value of an empty array */
+export const purge = () => barracks.queue = DEFAULT_BARRACKS.queue;
+
 //** Adds a new creep of a given unit type ot the queue and returns where the creep is positioned in the queue */
 export const enlist = (unitId: UnitId): number => {
 
@@ -24,6 +27,24 @@ export const enlist = (unitId: UnitId): number => {
 //** Perform the work of the barracks */
 export const operate = () => {
 
+    emergencyEnlist();
+    spawn();
+}
+
+/** If there are no creeps left, and there are no enlistments queued, enlist a basic creep */
+const emergencyEnlist = () => {
+    
+    if (
+        getCreeps().length === 0 &&
+        barracks.queue.length === 0
+    ) {
+        enlist(UnitId.Basic);
+    }
+}
+
+/** Perform enlistments */
+const spawn = () => {
+    
     if (!barracks.queue.length) {
         return;
     }
@@ -61,5 +82,8 @@ export interface WingCreep extends Creep {
     memory: WingCreepMemory;
 }
 
-//** Gets all game creeps converted to the Wingman format */
-export const getCreeps = (): { [creepName: string]: WingCreep } => Game.creeps as { [creepName: string]: WingCreep };
+//** Gets all game creeps in the original format converted to the Wingman type */
+export const getCreepMap = (): { [creepName: string]: WingCreep } => Game.creeps as { [creepName: string]: WingCreep };
+
+//** Gets an array of all creeps */
+export const getCreeps = (): WingCreep[] => Object.values(getCreepMap());

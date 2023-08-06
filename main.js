@@ -24,13 +24,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const barracks = __importStar(require("./barracks"));
-const units_1 = require("./units");
+const garbage_1 = require("./garbage");
+const professions_1 = require("./professions");
 const wingman = () => {
-    if (barracks.barracks.queue.length === 0) {
-        barracks.enlist(units_1.UnitId.Basic);
-        barracks.enlist(units_1.UnitId.DrillMkI);
-        barracks.enlist(units_1.UnitId.CarrierMkI);
-    }
     barracks.operate();
+    const creeps = barracks.getCreeps();
+    creeps.forEach(creep => (0, professions_1.performProfession)(creep));
+    (0, garbage_1.cleanMemory)();
 };
 module.exports.loop = wingman();
