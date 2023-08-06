@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chronicle_1 = require("./chronicle");
+const units_1 = require("./units");
 const wingman = () => {
-    console.log((0, chronicle_1.getName)("builder"));
+    const unit = (0, units_1.getUnit)(units_1.UnitId.CarrierMkI);
+    console.log(JSON.stringify(unit));
 };
 module.exports.loop = wingman();
