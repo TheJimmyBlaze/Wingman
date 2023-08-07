@@ -44,6 +44,25 @@ const doBasic = (creep) => {
         }
         return;
     }
+    //If theres something to build, do that first
+    const construction = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+    if (construction) {
+        if (creep.build(construction) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(construction);
+        }
+        return;
+    }
+    //Find the nearest tower and power it
+    const tower = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        filter: structure => (structure.structureType === STRUCTURE_TOWER &&
+            structure.store.getFreeCapacity(RESOURCE_ENERGY))
+    });
+    if (tower) {
+        if (creep.transfer(tower, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(tower);
+        }
+        return;
+    }
     //Find the nearest spawn or extension and add energy to it
     const capacitor = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: structure => ((structure.structureType === STRUCTURE_SPAWN || structure.structureType === STRUCTURE_EXTENSION) &&

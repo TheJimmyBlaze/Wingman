@@ -39,6 +39,8 @@ const emergencyEnlist = () => {
         barracks.queue.length === 0
     ) {
         enlist(UnitId.Basic);
+        enlist(UnitId.Basic);
+        enlist(UnitId.Basic);
     }
 }
 

@@ -28,6 +28,8 @@ const emergencyEnlist = () => {
     if ((0, exports.getCreeps)().length === 0 &&
         exports.barracks.queue.length === 0) {
         (0, exports.enlist)(units_1.UnitId.Basic);
+        (0, exports.enlist)(units_1.UnitId.Basic);
+        (0, exports.enlist)(units_1.UnitId.Basic);
     }
 };
 /** Perform enlistments */
